@@ -42,6 +42,8 @@ public class DataBaseHelper
             System.out.println("*****Open the file and read the comments in the beginning of the file****");
             System.out.println("Run: export CLASSPATH=./:/usr/local/oracle11gr203/product/11.2.0/db_1/jdbc/lib/ojdbc6.jar");
             System.out.println("");
+            
+            System.out.println(e.getMessage());
             System.exit(0);
         }
 
@@ -85,8 +87,8 @@ public class DataBaseHelper
 	{
 		String input = prompt("Enter Patient SSN: ", String.class);
 		
-		String query = "SELECT SSN, givenName, surname, address"
-				+ "FROM Patient"
+		String query = "SELECT SSN, givenName, surname, address\n"
+				+ "FROM Patient\n"
 				+ "WHERE SSN='" + input + "'";
 		
 		ResultSet rs = makeStatement(query);
