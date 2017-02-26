@@ -361,8 +361,6 @@ public class DataBaseHelper
         		System.out.println("Got employee: " + result.getString("name"));
         	}*/
         	
-        	result.close();
-        	
         	st.close();
         	
         	connection.close();
