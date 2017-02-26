@@ -1,5 +1,6 @@
 //export CLASSPATH=./:/usr/local/oracle11gr203/product/11.2.0/db_1/jdbc/lib/ojdbc6.jar
 //COMPILE WITH: javac -source 1.6 -target 1.6 *.java
+//git pull https://github.com/jtfakult/DB_Project_3.git
 
 import java.util.Scanner;
 
@@ -50,7 +51,7 @@ public class Reporting
 		System.out.println("4- Update Admissions Payment");
 		
 		Scanner scanner = new Scanner(System.in);
-		String c = "";
+		String c = scanner.next();
 		while (!isValid(c.substring(0, 1)))
 		{
 			System.out.print("? ");
