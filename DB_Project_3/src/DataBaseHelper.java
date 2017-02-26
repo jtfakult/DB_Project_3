@@ -356,10 +356,10 @@ public class DataBaseHelper
         	Statement st = connection.createStatement();
         	ResultSet result = 	st.executeQuery(statement);
         	
-        	while (result.next())
+        	/*while (result.next())
         	{
         		System.out.println("Got employee: " + result.getString("name"));
-        	}
+        	}*/
         	
         	result.close();
         	
