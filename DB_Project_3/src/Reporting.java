@@ -28,12 +28,15 @@ public class Reporting
 			choice = promptChoice();
 		}
 		
-		DataBaseHelper db = new DataBaseHelper(account);
+		
+		DataBaseHelper db = null;
+		
+		if (!choice.equals("0")) db = new DataBaseHelper(account);
+		
 		while (!choice.equals("0"))
-		{
+		{	
 			db.setChoice(choice);
 			db.execute();
-			
 			choice = promptChoice();
 		}
 		

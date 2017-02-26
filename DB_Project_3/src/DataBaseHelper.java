@@ -84,7 +84,7 @@ public class DataBaseHelper
 	
 	private void choice1()
 	{
-		String input = prompt("Enter Patient SSN: ", Integer.class);
+		String input = prompt("Enter Patient SSN: ", String.class);
 		
 		String query = "SELECT SSN, givenName, surname, address"
 				+ "FROM Patient"
