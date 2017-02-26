@@ -88,8 +88,10 @@ public class DataBaseHelper
 		String input = prompt("Enter Patient SSN: ", String.class);
 		
 		String query = "SELECT SSN, givenName, surname, address\n"
-				+ "FROM Patient\n"
+				+ "FROM Patients\n"
 				+ "WHERE SSN='" + input + "'";
+		
+		System.out.println("Query is: " + query);
 		
 		ResultSet rs = makeStatement(query);
 		if (rs == null)
@@ -123,8 +125,8 @@ public class DataBaseHelper
 	{
 		String input = prompt("Enter Doctor ID: ", Integer.class);
 		
-		String query = "SELECT ID, givenName, surname, gender"
-				+ "FROM Doctor"
+		String query = "SELECT ID, givenName, surname, gender\n"
+				+ "FROM Doctors\n"
 				+ "WHERE ID='" + input + "'";
 		
 		ResultSet rs = makeStatement(query);
@@ -159,8 +161,8 @@ public class DataBaseHelper
 	{
 		String input = prompt("Enter Admission Number: ", Integer.class);
 		
-		String query = "SELECT A.admissionNumber, P.SSN, A.startDate, A.totalPayment"
-				+ "FROM Admission A, Patient P, Room R"
+		String query = "SELECT A.admissionNumber, P.SSN, A.startDate, A.totalPayment\n"
+				+ "FROM Admissions A, Patients P, Rooms R\n"
 				+ "WHERE A.patientSSN=P.SSN AND A.roomNumber=R.roomNumber AND A.admissionNumber='" + input + "'";
 		
 		ResultSet rs = makeStatement(query);
@@ -191,8 +193,8 @@ public class DataBaseHelper
 			e.printStackTrace();
 		}
 		
-		query = "SELECT R.roomNumber, R.FromDate, R.ToDate"
-				+ "FROM Admission A, Patient P, Room R"
+		query = "SELECT R.roomNumber, R.FromDate, R.ToDate\n"
+				+ "FROM Admissions A, Patients P, Rooms R\n"
 				+ "WHERE A.patientSSN=P.SSN AND A.roomNumber=R.roomNumber AND A.admissionNumber='" + input + "'";
 		
 		rs = makeStatement(query);
@@ -219,8 +221,8 @@ public class DataBaseHelper
 			e.printStackTrace();
 		}
 		
-		query = "SELECT D.doctorID"
-				+ "FROM Admission A, Patient P, Doctor D"
+		query = "SELECT D.doctorID\n"
+				+ "FROM Admission A, Patient P, Doctor D\n"
 				+ "WHERE A.patientSSN=P.SSN AND A.doctorID=D.doctorID AND A.admissionNumber='" + input + "'";
 		
 		rs = makeStatement(query);
@@ -246,6 +248,42 @@ public class DataBaseHelper
 		}
 	}
 	
+	private void choice4()
+	{
+		String input = prompt("Enter Doctor ID: ", Integer.class);
+		
+		String query = "SELECT ID, givenName, surname, gender\n"
+				+ "FROM Doctors\n"
+				+ "WHERE ID='" + input + "'";
+		
+		ResultSet rs = makeStatement(query);
+		if (rs == null)
+		{
+			System.out.println("Result was empty");
+			return;
+		}
+		
+		try
+		{
+			while (rs.next())
+			{
+				int ID = rs.getInt(0);
+				String fName = rs.getString(1);
+				String lName = rs.getString(2);
+				String gender = rs.getString(3);
+				
+				System.out.println("Doctor ID: " + ID);
+				System.out.println("Doctor First Name: " + fName);
+				System.out.println("Doctor Last Name: " + lName);
+				System.out.println("Doctor Gender: " + gender);
+			}
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
 	public void execute()
 	{
 		if (choice.equals("1"))
@@ -262,8 +300,8 @@ public class DataBaseHelper
 		}
 		else if (choice.equals("4"))
 		{
-			System.out.println("No choice 4 yet");
-			//choice4();
+			//System.out.println("No choice 4 yet");
+			choice4();
 		}
 	}
 	
