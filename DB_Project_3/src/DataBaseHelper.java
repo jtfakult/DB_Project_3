@@ -18,6 +18,8 @@ public class DataBaseHelper
 	{
 		account = a;
 		scanner = new Scanner(System.in);
+		
+		connect();
 	}
 	
 	public void setChoice(String newChoice)
@@ -38,6 +40,7 @@ public class DataBaseHelper
             System.out.println("Where is your Oracle JDBC Driver? Did you follow the execution steps. ");
             System.out.println("");
             System.out.println("*****Open the file and read the comments in the beginning of the file****");
+            System.out.println("Run: export CLASSPATH=./:/usr/local/oracle11gr203/product/11.2.0/db_1/jdbc/lib/ojdbc6.jar");
             System.out.println("");
             e.printStackTrace();
             return;
@@ -76,7 +79,7 @@ public class DataBaseHelper
 		{
 			connection.close();
 		}
-		catch (SQLException e) { }
+		catch (Exception e) { }
 	}
 	
 	private void choice1()
@@ -267,11 +270,13 @@ public class DataBaseHelper
 	{
 		
 		String input = "";
+		System.out.println(text);
 		input = scanner.nextLine();
 		
 		while (!valid(input, type))
 		{
 			System.out.println("Please enter a legal value of type: " + type.getName());
+			System.out.println(text);
 			input = scanner.nextLine();
 		}
 		

@@ -29,7 +29,7 @@ public class Reporting
 		}
 		
 		DataBaseHelper db = new DataBaseHelper(account);
-		while (choice != "0")
+		while (!choice.equals("0"))
 		{
 			db.setChoice(choice);
 			db.execute();
@@ -52,13 +52,11 @@ public class Reporting
 		
 		Scanner scanner = new Scanner(System.in);
 		String c = "-";//scanner.nextLine();
-		while (!isValid(c.substring(0, 1)))
+		while (!isValid(c.substring(0, 1)) && !c.equals("0"))
 		{
 			System.out.print("? ");
 			c = scanner.nextLine();
 		}
-		
-		scanner.close();
 		
 		return c.substring(0, 1);
 	}
