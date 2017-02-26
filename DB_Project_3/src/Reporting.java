@@ -1,4 +1,5 @@
 //export CLASSPATH=./:/usr/local/oracle11gr203/product/11.2.0/db_1/jdbc/lib/ojdbc6.jar
+//COMPILE WITH: javac -source 1.6 -target 1.6 *.java
 
 import java.util.Scanner;
 
@@ -7,18 +8,18 @@ public class Reporting
 	static String choice = "";
 	public static void main(String[] args)
 	{
-		if (args.length != 3 && args.length != 4)
+		if (args.length != 2 && args.length != 3)
 		{
 			System.err.println("Please run the program in the following form:\njava Reporting <username> <password>\nExiting...");
 			
 			System.exit(0);
 		}
 		
-		Account account = new Account(args[1], args[2]);
+		Account account = new Account(args[0], args[1]);
 		
 		if (args.length == 4)
 		{
-			choice = args[3];
+			choice = args[2];
 		}
 		
 		if (choice.length() == 0)
