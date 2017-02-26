@@ -43,7 +43,7 @@ public class DataBaseHelper
             System.out.println("Run: export CLASSPATH=./:/usr/local/oracle11gr203/product/11.2.0/db_1/jdbc/lib/ojdbc6.jar");
             System.out.println("");
             e.printStackTrace();
-            return;
+            System.exit(0);
         }
 
         System.out.println("Oracle JDBC Driver Registered Successfully !");
