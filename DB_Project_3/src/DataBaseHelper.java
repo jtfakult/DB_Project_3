@@ -57,6 +57,7 @@ public class DataBaseHelper
         catch (SQLException e)
         {
             System.out.println("Connection Failed! Check output console");
+            System.out.println(e.getMessage());
             System.exit(0);
         }
 
