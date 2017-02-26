@@ -27,7 +27,7 @@ public class DataBaseHelper
 		choice = newChoice;
 	}
 	
-	public void connect()
+	private void connect()
 	{
 		System.out.println("-------- Oracle JDBC Connection Testing ------");
         System.out.println("-------- Step 1: Registering Oracle Driver ------");

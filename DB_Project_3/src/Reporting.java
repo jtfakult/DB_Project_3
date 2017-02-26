@@ -18,6 +18,8 @@ public class Reporting
 		
 		Account account = new Account(args[0], args[1]);
 		
+		DataBaseHelper db = new DataBaseHelper(account);
+		
 		if (args.length == 4)
 		{
 			choice = args[2];
@@ -27,11 +29,6 @@ public class Reporting
 		{
 			choice = promptChoice();
 		}
-		
-		
-		DataBaseHelper db = null;
-		
-		if (!choice.equals("0")) db = new DataBaseHelper(account);
 		
 		while (!choice.equals("0"))
 		{	
