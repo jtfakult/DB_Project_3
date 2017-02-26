@@ -51,11 +51,11 @@ public class Reporting
 		System.out.println("4- Update Admissions Payment");
 		
 		Scanner scanner = new Scanner(System.in);
-		String c = scanner.next();
+		String c = "-";//scanner.nextLine();
 		while (!isValid(c.substring(0, 1)))
 		{
 			System.out.print("? ");
-			c = scanner.next();
+			c = scanner.nextLine();
 		}
 		
 		scanner.close();
