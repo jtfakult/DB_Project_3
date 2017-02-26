@@ -57,8 +57,7 @@ public class DataBaseHelper
         catch (SQLException e)
         {
             System.out.println("Connection Failed! Check output console");
-            e.printStackTrace();
-            return;
+            System.exit(0);
         }
 
         if (connection != null)
@@ -313,7 +312,7 @@ public class DataBaseHelper
 	{
 		try
         {
-        	Statement st = connection.createStatement(); 
+        	Statement st = connection.createStatement();
         	ResultSet result = 	st.executeQuery(statement);
         	
         	while (result.next())
