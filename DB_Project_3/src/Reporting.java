@@ -31,7 +31,7 @@ public class Reporting
 		Account account = new Account(args[0], args[1]);
 		DataBaseHelper db = new DataBaseHelper(account);
 
-		if (!choice.equals("i"))
+		if (!choice.equals("0"))
 		{
 			db.setChoice(choice);
 			db.execute();
