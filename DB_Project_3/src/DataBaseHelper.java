@@ -100,20 +100,23 @@ public class DataBaseHelper
 				System.out.println("Result was empty");
 				return;
 			}
+			else
+			{
+				do {
+					String SSN = rs.getString("SSN");
+					String fName = rs.getString("givenName");
+					String lName = rs.getString("surname");
+					String address = rs.getString("address");
+					if (fName == null) { fName = ""; }
+					if (lName == null) { lName = ""; }
+					if (address == null) { address = "unknown"; }
 
-			do {
-				String SSN = rs.getString("SSN");
-				String fName = rs.getString("givenName");
-				String lName = rs.getString("surname");
-				String address = rs.getString("address");
-				if (fName==null) { fName = ""; }
-				if (lName==null) { lName = ""; }
-
-				System.out.println("Patient SSN: " + SSN);
-				System.out.println("Patient First Name: " + fName);
-				System.out.println("Patient Last Name: " + lName);
-				System.out.println("Patient Address: " + address);
-			} while (rs.next());
+					System.out.println("Patient SSN: " + SSN);
+					System.out.println("Patient First Name: " + fName);
+					System.out.println("Patient Last Name: " + lName);
+					System.out.println("Patient Address: " + address);
+				} while (rs.next());
+			}
 			
 			rs.close();
 		}
@@ -140,20 +143,24 @@ public class DataBaseHelper
 				System.out.println("Result was empty");
 				return;
 			}
+			else
+			{
+				do {
+					int ID = rs.getInt("doctorID");
+					String fName = rs.getString("givenName");
+					String lName = rs.getString("surname");
+					String gender = rs.getString("gender");
+					
+					if (fName == null) { fName = ""; }
+					if (lName == null) { lName = ""; }
+					if (gender == null) { gender = "-"; }
 
-			do {
-				int ID = rs.getInt("doctorID");
-				String fName = rs.getString("givenName");
-				String lName = rs.getString("surname");
-				String gender = rs.getString("gender");
-				if (fName==null) { fName = ""; }
-				if (lName==null) { lName = ""; }
-
-				System.out.println("Doctor ID: " + ID);
-				System.out.println("Doctor First Name: " + fName);
-				System.out.println("Doctor Last Name: " + lName);
-				System.out.println("Doctor Gender: " + gender);
-			} while (rs.next());
+					System.out.println("Doctor ID: " + ID);
+					System.out.println("Doctor First Name: " + fName);
+					System.out.println("Doctor Last Name: " + lName);
+					System.out.println("Doctor Gender: " + gender);
+				} while (rs.next());
+			}
 			
 			rs.close();
 		}
@@ -181,21 +188,26 @@ public class DataBaseHelper
 		{
 			if (!rs.next())
 			{
-				System.out.println("Result was empty");
+				System.out.println("Result was empty!\n");
+				rs.close();
 				return;
 			}
+			else
+			{
+				do {
+					int admissionNumber = rs.getInt("admissionID");
+					String SSN = rs.getString("SSN");
+					String stayStartDate = rs.getString("admissionDate");
+					double totalPayment = rs.getDouble("totalPayment");
+					
+					if (SSN == null) SSN = "";
 
-			do {
-				int admissionNumber = rs.getInt("admissionID");
-				String SSN = rs.getString("SSN");
-				String stayStartDate = rs.getString("admissionDate");
-				double totalPayment = rs.getDouble("totalPayment");
-
-				System.out.println("Admission Number: " + admissionNumber);
-				System.out.println("Patient SSN: " + SSN);
-				System.out.println("Admission date: " + stayStartDate);
-				System.out.println("Total Payment: " + totalPayment);
-			} while (rs.next());
+					System.out.println("Admission Number: " + admissionNumber);
+					System.out.println("Patient SSN: " + SSN);
+					System.out.println("Admission date: " + stayStartDate);
+					System.out.println("Total Payment: " + totalPayment);
+				} while (rs.next());
+			}
 		}
 		catch (SQLException e)
 		{
@@ -218,17 +230,20 @@ public class DataBaseHelper
 			{
 				System.out.println("No rooms recorded!");
 			}
-			
-			do
+			else
 			{
-				int roomNumber = rs.getInt("roomNumber");
-				String fromDate = rs.getString("startTime");
-				String toDate = rs.getString("endTime");
-				if (toDate == null) { toDate = "[current room]"; }
-
-				System.out.println("\tRoomNum: " + roomNumber + "\tFromDate: " + fromDate + "\tToDate: " + toDate);
-			} while (rs.next());
-			rs.close();
+				do
+				{
+					int roomNumber = rs.getInt("roomNumber");
+					String fromDate = rs.getString("startTime");
+					String toDate = rs.getString("endTime");
+					
+					if (toDate == null) { toDate = "[current room]"; }
+				
+					System.out.println("\tRoomNum: " + roomNumber + "\tFromDate: " + fromDate + "\tToDate: " + toDate);
+				} while (rs.next());
+				rs.close();
+			}
 		}
 		catch (SQLException e)
 		{
@@ -246,7 +261,7 @@ public class DataBaseHelper
 		{
 			if (!rs.next())
 			{
-				System.out.println("No Doctors recorded!");
+				System.out.println("\tNo Doctors recorded!");
 			}
 			else
 			{
@@ -281,9 +296,9 @@ public class DataBaseHelper
 			if (!rs.next())
 			{
 				System.out.println("That admission does not exist.");
+				rs.close();
 				return;
 			}
-			rs.close();
 		}
 		catch (SQLException e)
 		{
