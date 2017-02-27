@@ -22,6 +22,8 @@ public class Reporting
 		if (args.length == 3)
 		{
 			choice = args[2];
+			
+			System.out.println("Option " + choice + " passing in as arg");
 		}
 		
 		if (choice.length() == 0)

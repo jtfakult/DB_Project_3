@@ -214,7 +214,12 @@ public class DataBaseHelper
 		System.out.println("Rooms:");
 		try
 		{
-			while (rs.next())
+			if (!rs.next())
+			{
+				System.out.println("No rooms recorded!");
+			}
+			
+			do
 			{
 				int roomNumber = rs.getInt("roomNumber");
 				String fromDate = rs.getString("startTime");
@@ -222,7 +227,7 @@ public class DataBaseHelper
 				if (toDate == null) { toDate = "[current room]"; }
 
 				System.out.println("\tRoomNum: " + roomNumber + "\tFromDate: " + fromDate + "\tToDate: " + toDate);
-			}
+			} while (rs.next());
 			rs.close();
 		}
 		catch (SQLException e)
@@ -239,12 +244,16 @@ public class DataBaseHelper
 		System.out.println("Doctors who examined this patient during this admission:");
 		try
 		{
-			while (rs.next())
+			if (!rs.next())
+			{
+				System.out.println("No Doctors recorded!");
+			}
+			do
 			{
 				int doctorID = rs.getInt("doctorID");
 
 				System.out.println("\tDoctor ID: " + doctorID);
-			}
+			} while (rs.next());
 		}
 		catch (SQLException e)
 		{
@@ -280,7 +289,7 @@ public class DataBaseHelper
 			return;
 		}
 
-		String payment = prompt("Enter the new total payment: ", Integer.class);
+		String payment = prompt("Enter the new total payment: ", Double.class);
 
 		query = " UPDATE Admissions SET totalPayment = " + payment
 			+ " WHERE admissionID =" + number;
@@ -360,7 +369,7 @@ public class DataBaseHelper
 		}
 		else
 		{
-			System.err.println("Invalud class: " + type.getName() + "...\nHandling as a String");
+			System.err.println("Invalid class: " + type.getName() + "...\nHandling as a String");
 			return true;
 		}
 	}
@@ -371,9 +380,6 @@ public class DataBaseHelper
 		{
 			Statement st = connection.createStatement();
 			ResultSet result = st.executeQuery(statement);
-
-//			connection.close();
-			// TODO: MUST CLOSE st AND LATER IN PROGRAM
 
 			return result;
 		}
