@@ -11,69 +11,69 @@ public class DataBaseHelper
 	private String choice = "";
 	private Account account;
 	private Scanner scanner;
-	
-	Connection connection;
-	
+
+	private Connection connection;
+
 	public DataBaseHelper(Account a)
 	{
 		account = a;
 		scanner = new Scanner(System.in);
-		
+
 		connect();
 	}
-	
+
 	public void setChoice(String newChoice)
 	{
 		choice = newChoice;
 	}
-	
+
 	private void connect()
 	{
 		System.out.println("-------- Oracle JDBC Connection Testing ------");
-        System.out.println("-------- Step 1: Registering Oracle Driver ------");
-        try
-        {
-        	Class.forName("oracle.jdbc.driver.OracleDriver");
-        }
-        catch (ClassNotFoundException e)
-        {
-            System.out.println("Where is your Oracle JDBC Driver? Did you follow the execution steps. ");
-            System.out.println("");
-            System.out.println("*****Open the file and read the comments in the beginning of the file****");
-            System.out.println("Run: export CLASSPATH=./:/usr/local/oracle11gr203/product/11.2.0/db_1/jdbc/lib/ojdbc6.jar");
-            System.out.println("");
-            
-            System.out.println(e.getMessage());
-            System.exit(0);
-        }
+		System.out.println("-------- Step 1: Registering Oracle Driver ------");
+		try
+		{
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+		}
+		catch (ClassNotFoundException e)
+		{
+			System.out.println("Where is your Oracle JDBC Driver? Did you follow the execution steps. ");
+			System.out.println("");
+			System.out.println("*****Open the file and read the comments in the beginning of the file****");
+			System.out.println("Run: export CLASSPATH=./:/usr/local/oracle11gr203/product/11.2.0/db_1/jdbc/lib/ojdbc6.jar");
+			System.out.println("");
 
-        System.out.println("Oracle JDBC Driver Registered Successfully !");
+			System.out.println(e.getMessage());
+			System.exit(0);
+		}
+
+		System.out.println("Oracle JDBC Driver Registered Successfully !");
 
 
-        System.out.println("-------- Step 2: Building a Connection ------");
-        connection = null;
-        try
-        {
-            connection = DriverManager.getConnection("jdbc:oracle:thin:@oracle.wpi.edu:1521:orcl", account.getUsername(), account.getPassword());
-        }
-        catch (SQLException e)
-        {
-            System.out.println("Connection Failed! Check output console");
-            System.out.println(e.getMessage());
-            System.exit(0);
-        }
+		System.out.println("-------- Step 2: Building a Connection ------");
+		connection = null;
+		try
+		{
+			connection = DriverManager.getConnection("jdbc:oracle:thin:@oracle.wpi.edu:1521:orcl", account.getUsername(), account.getPassword());
+		}
+		catch (SQLException e)
+		{
+			System.out.println("Connection Failed! Check output console");
+			System.out.println(e.getMessage());
+			System.exit(0);
+		}
 
-        if (connection != null)
-        {
-            System.out.println("You made it. Connection is successful. Take control of your database now!");
-        }
-        else
-        {
-            System.err.println("Failed to make connection!");
-            System.exit(0);
-        }
+		if (connection != null)
+		{
+			System.out.println("You made it. Connection is successful. Take control of your database now!");
+		}
+		else
+		{
+			System.err.println("Failed to make connection!");
+			System.exit(0);
+		}
 	}
-	
+
 	public void close()
 	{
 		try
@@ -82,74 +82,80 @@ public class DataBaseHelper
 		}
 		catch (Exception e) { }
 	}
-	
+
 	private void choice1()
 	{
 		String input = prompt("Enter Patient SSN: ", String.class);
-		
-		String query = "SELECT SSN, givenName, surname, address\n"
-				+ "FROM Patients\n"
-				+ "WHERE SSN='" + input + "'";
-		
-		System.out.println("Query is: " + query);
-		
-		ResultSet rs = makeStatement(query);
-		if (rs == null)
-		{
-			System.out.println("Result was empty");
-			return;
-		}
-		
+
+		String query = " SELECT SSN, givenName, surname, address "
+				+ " FROM Patients "
+				+ " WHERE SSN='" + input + "'";
+
 		try
 		{
-			while (rs.next())
+			ResultSet rs = makeStatement(query);
+			
+			if (!rs.next())
 			{
-				String SSN = rs.getString(0);
-				String fName = rs.getString(1);
-				String lName = rs.getString(2);
-				String address = rs.getString(3);
-				
+				System.out.println("Result was empty");
+				return;
+			}
+
+			do {
+				String SSN = rs.getString("SSN");
+				String fName = rs.getString("givenName");
+				String lName = rs.getString("surname");
+				String address = rs.getString("address");
+				if (fName==null) { fName = ""; }
+				if (lName==null) { lName = ""; }
+
 				System.out.println("Patient SSN: " + SSN);
 				System.out.println("Patient First Name: " + fName);
 				System.out.println("Patient Last Name: " + lName);
 				System.out.println("Patient Address: " + address);
-			}
+			} while (rs.next());
+			
+			rs.close();
 		}
 		catch (SQLException e)
 		{
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void choice2()
 	{
 		String input = prompt("Enter Doctor ID: ", Integer.class);
-		
-		String query = "SELECT ID, givenName, surname, gender\n"
-				+ "FROM Doctors\n"
-				+ "WHERE ID='" + input + "'";
-		
-		ResultSet rs = makeStatement(query);
-		if (rs == null)
-		{
-			System.out.println("Result was empty");
-			return;
-		}
-		
+
+		String query = " SELECT doctorID, givenName, surname, gender "
+				+ " FROM Doctors "
+				+ " WHERE doctorID='" + input + "'";
+
 		try
 		{
-			while (rs.next())
+			ResultSet rs = makeStatement(query);
+			
+			if (!rs.next())
 			{
-				int ID = rs.getInt(0);
-				String fName = rs.getString(1);
-				String lName = rs.getString(2);
-				String gender = rs.getString(3);
-				
+				System.out.println("Result was empty");
+				return;
+			}
+
+			do {
+				int ID = rs.getInt("doctorID");
+				String fName = rs.getString("givenName");
+				String lName = rs.getString("surname");
+				String gender = rs.getString("gender");
+				if (fName==null) { fName = ""; }
+				if (lName==null) { lName = ""; }
+
 				System.out.println("Doctor ID: " + ID);
 				System.out.println("Doctor First Name: " + fName);
 				System.out.println("Doctor Last Name: " + lName);
 				System.out.println("Doctor Gender: " + gender);
-			}
+			} while (rs.next());
+			
+			rs.close();
 		}
 		catch (SQLException e)
 		{
@@ -160,60 +166,84 @@ public class DataBaseHelper
 	private void choice3()
 	{
 		String input = prompt("Enter Admission Number: ", Integer.class);
-		
-		String query = "SELECT A.admissionNumber, P.SSN, A.startDate, A.totalPayment\n"
-				+ "FROM Admissions A, Patients P, Rooms R\n"
-				+ "WHERE A.patientSSN=P.SSN AND A.roomNumber=R.roomNumber AND A.admissionNumber='" + input + "'";
-		
+
+		String query = " SELECT SSN, admissionID, admissionDate, totalPayment "
+			+ " FROM Admissions JOIN Patients ON Admissions.patientID = Patients.patientID "
+			+ " WHERE admissionID = " + input;
+
+		// String query = "SELECT A.admissionID, P.SSN, A.startDate, A.totalPayment\n"
+		//			+ "FROM Admissions A, Patients P, Rooms R\n"
+		//			+ "WHERE A.patientID=P.patientID AND A.roomNumber=R.roomNumber AND A.admissionID='" + input + "'";
+
 		ResultSet rs = makeStatement(query);
-		if (rs == null)
-		{
-			System.out.println("Result was empty");
-			return;
-		}
-		
+
 		try
 		{
-			while (rs.next())
+			if (!rs.next())
 			{
-				int admissionNumber = rs.getInt(0);
-				String SSN = rs.getString(1);
-				String stayStartDate = rs.getString(2);
-				String stayEndDate = rs.getString(3);
-				double totalPayment = rs.getDouble(4);
-				
+				System.out.println("Result was empty");
+				return;
+			}
+
+			do {
+				int admissionNumber = rs.getInt("admissionID");
+				String SSN = rs.getString("SSN");
+				String stayStartDate = rs.getString("admissionDate");
+				double totalPayment = rs.getDouble("totalPayment");
+
 				System.out.println("Admission Number: " + admissionNumber);
 				System.out.println("Patient SSN: " + SSN);
 				System.out.println("Admission date: " + stayStartDate);
 				System.out.println("Total Payment: " + totalPayment);
-			}
+			} while (rs.next());
 		}
 		catch (SQLException e)
 		{
 			e.printStackTrace();
 		}
-		
+
 		query = "SELECT R.roomNumber, R.FromDate, R.ToDate\n"
 				+ "FROM Admissions A, Patients P, Rooms R\n"
 				+ "WHERE A.patientSSN=P.SSN AND A.roomNumber=R.roomNumber AND A.admissionNumber='" + input + "'";
-		
+
+		query = " SELECT roomNumber, startTime, endTime FROM RoomStays WHERE admissionID = " + input;
+
+
 		rs = makeStatement(query);
-		if (rs == null)
-		{
-			System.out.println("Result was empty");
-			return;
-		}
-		
+
+		System.out.println("Rooms:");
 		try
 		{
-			System.out.println("Rooms:");
 			while (rs.next())
 			{
-				int roomNumber = rs.getInt(0);
-				String fromDate = rs.getString(1);
-				String toDate = rs.getString(2);
-				
-				System.out.println("RoomNum: " + roomNumber + "\tFromDate: " + fromDate + "\tToDate: " + toDate);
+				int roomNumber = rs.getInt("roomNumber");
+				String fromDate = rs.getString("startTime");
+				String toDate = rs.getString("endTime");
+				if (toDate == null) { toDate = "[current room]"; }
+
+				System.out.println("\tRoomNum: " + roomNumber + "\tFromDate: " + fromDate + "\tToDate: " + toDate);
+			}
+			rs.close();
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+
+		query = " SELECT DISTINCT doctorID "
+			+ " FROM Admissions JOIN Examinations on Admissions.admissionID = Examinations.admissionID "
+			+ " WHERE Admissions.admissionID = " + input;
+
+		rs = makeStatement(query);
+
+		System.out.println("Doctors who examined this patient during this admission:");
+		try
+		{
+			while (rs.next())
+			{
+				int doctorID = rs.getInt("doctorID");
+
+				System.out.println("\tDoctor ID: " + doctorID);
 			}
 		}
 		catch (SQLException e)
@@ -221,69 +251,55 @@ public class DataBaseHelper
 			e.printStackTrace();
 		}
 		
-		query = "SELECT D.doctorID\n"
-				+ "FROM Admission A, Patient P, Doctor D\n"
-				+ "WHERE A.patientSSN=P.SSN AND A.doctorID=D.doctorID AND A.admissionNumber='" + input + "'";
-		
-		rs = makeStatement(query);
-		if (rs == null)
-		{
-			System.out.println("Result was empty");
-			return;
-		}
-		
 		try
 		{
-			System.out.println("Doctors who Examined this patient during this admission:");
-			while (rs.next())
-			{
-				int doctorID = rs.getInt(0);
-				
-				System.out.println("Doctor ID: " + doctorID);
-			}
+			rs.close();
 		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-		}
+		catch (SQLException e) {}
 	}
-	
+
 	private void choice4()
 	{
-		String input = prompt("Enter Doctor ID: ", Integer.class);
-		
-		String query = "SELECT ID, givenName, surname, gender\n"
-				+ "FROM Doctors\n"
-				+ "WHERE ID='" + input + "'";
-		
+		String number  = prompt("Enter Admission Number: ", Integer.class);
+
+		String query = " SELECT admissionID FROM Admissions WHERE admissionID = " + number;
 		ResultSet rs = makeStatement(query);
-		if (rs == null)
-		{
-			System.out.println("Result was empty");
-			return;
-		}
-		
 		try
 		{
-			while (rs.next())
+			if (!rs.next())
 			{
-				int ID = rs.getInt(0);
-				String fName = rs.getString(1);
-				String lName = rs.getString(2);
-				String gender = rs.getString(3);
-				
-				System.out.println("Doctor ID: " + ID);
-				System.out.println("Doctor First Name: " + fName);
-				System.out.println("Doctor Last Name: " + lName);
-				System.out.println("Doctor Gender: " + gender);
+				System.out.println("That admission does not exist.");
+				return;
 			}
+			rs.close();
+		}
+		catch (SQLException e)
+		{
+			System.out.println("Error verifying admission.\n");
+			e.printStackTrace();
+			return;
+		}
+
+		String payment = prompt("Enter the new total payment: ", Integer.class);
+
+		query = " UPDATE Admissions SET totalPayment = " + payment
+			+ " WHERE admissionID =" + number;
+
+
+		try
+		{
+			Statement st = connection.createStatement();
+			st.executeUpdate(query);
+
+			rs.close();
+			st.close();
 		}
 		catch (SQLException e)
 		{
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void execute()
 	{
 		if (choice.equals("1"))
@@ -304,28 +320,28 @@ public class DataBaseHelper
 			choice4();
 		}
 	}
-	
+
 	private String prompt(String text, Class<?> type)
 	{
-		
+
 		String input = "";
-		System.out.println(text);
+		System.out.print(text);
 		input = scanner.nextLine();
-		
+
 		while (!valid(input, type))
 		{
 			System.out.println("Please enter a legal value of type: " + type.getName());
-			System.out.println(text);
+			System.out.print(text);
 			input = scanner.nextLine();
 		}
-		
+
 		return input;
 	}
-	
+
 	private boolean valid(String s, Class<?> type)
 	{
 		if (s.length() == 0) return false;
-		
+
 		if (type == Integer.class)
 		{
 			try
@@ -348,30 +364,24 @@ public class DataBaseHelper
 			return true;
 		}
 	}
-	
+
 	private ResultSet makeStatement(String statement)
 	{
 		try
-        {
-        	Statement st = connection.createStatement();
-        	ResultSet result = 	st.executeQuery(statement);
-        	
-        	/*while (result.next())
-        	{
-        		System.out.println("Got employee: " + result.getString("name"));
-        	}*/
-        	
-        	st.close();
-        	
-        	connection.close();
-        	
-        	return result;
-        }
-        catch (SQLException e)
-        {
-        	e.printStackTrace();
-        }
-		
+		{
+			Statement st = connection.createStatement();
+			ResultSet result = st.executeQuery(statement);
+
+//			connection.close();
+			// TODO: MUST CLOSE st AND LATER IN PROGRAM
+
+			return result;
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+
 		return null;
 	}
 }

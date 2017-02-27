@@ -12,44 +12,50 @@ public class Reporting
 		if (args.length != 2 && args.length != 3)
 		{
 			System.err.println("Please run the program in the following form:\njava Reporting <username> <password>\nExiting...");
-			
+
 			System.exit(0);
 		}
-		
+		else if (args.length == 2)
+		{
+			System.out.println("1- Report Patient's Basic Information\n2- Report Doctor's Basic Information\n3- Report Admissions Information\n4- Update Admissions Payment");
+			return;
+		}
+		// args.length == 3
+		choice = args[2];
+		if (!choice.equals("1") && !choice.equals("2") && !choice.equals("3") && !choice.equals("4") && !choice.equals("i"))
+		{
+			System.out.println("Invalid argument.");
+			return;
+		}
+
 		Account account = new Account(args[0], args[1]);
-		
 		DataBaseHelper db = new DataBaseHelper(account);
-		
-		if (args.length == 4)
+
+		if (!choice.equals("i"))
 		{
-			choice = args[2];
+			db.setChoice(choice);
+			db.execute();
+			db.close();
+			return;
 		}
-		
-		if (choice.length() == 0)
-		{
-			choice = promptChoice();
-		}
-		
+
+		// Interactive mode
+
 		while (!choice.equals("0"))
-		{	
+		{
 			db.setChoice(choice);
 			db.execute();
 			choice = promptChoice();
 		}
-		
+
 		db.close();
-		System.out.println("Finishing...");
+		System.out.println("Exiting...");
 	}
-	
+
 	private static String promptChoice()
 	{
-		System.out.println("Enter the number of your choice\n");
-		System.out.println("0- Exit the program");
-		System.out.println("1- Report Patient's Basic Information");
-		System.out.println("2- Report Doctor's Basic Information");
-		System.out.println("3- Report Admissions Information");
-		System.out.println("4- Update Admissions Payment");
-		
+		System.out.println("Enter the number of your choice\n0- Exit the program\n1- Report Patient's Basic Information\n2- Report Doctor's Basic Information\n3- Report Admissions Information\n4- Update Admissions Payment");
+
 		Scanner scanner = new Scanner(System.in);
 		String c = "-";//scanner.nextLine();
 		while (!isValid(c.substring(0, 1)) && !c.equals("0"))
@@ -57,14 +63,14 @@ public class Reporting
 			System.out.print("? ");
 			c = scanner.nextLine();
 		}
-		
+
 		return c.substring(0, 1);
 	}
-	
+
 	private static boolean isValid(String c)
 	{
 		if (c.equals("")) return false;
-		
+
 		try
 		{
 			int i = Integer.parseInt(c);
@@ -72,14 +78,14 @@ public class Reporting
 		}
 		catch (NumberFormatException e)
 		{
-			
+
 		}
-		
+
 		return false;
 	}
-	
+
 	/*private static void connectToDB()
 	{
-		
+
 	}*/
 }
