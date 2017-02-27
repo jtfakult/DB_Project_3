@@ -248,13 +248,15 @@ public class DataBaseHelper
 			{
 				System.out.println("No Doctors recorded!");
 			}
-			
-			do
+			else
 			{
-				int doctorID = rs.getInt("doctorID");
+				do
+				{
+					int doctorID = rs.getInt("doctorID");
 
-				System.out.println("\tDoctor ID: " + doctorID);
-			} while (rs.next());
+					System.out.println("\tDoctor ID: " + doctorID);
+				} while (rs.next());
+			}
 		}
 		catch (SQLException e)
 		{
