@@ -97,7 +97,8 @@ public class DataBaseHelper
 			
 			if (!rs.next())
 			{
-				System.out.println("Result was empty");
+				System.out.println("Result was empty!\n");
+				rs.close();
 				return;
 			}
 			else
@@ -140,7 +141,8 @@ public class DataBaseHelper
 			
 			if (!rs.next())
 			{
-				System.out.println("Result was empty");
+				System.out.println("Result was empty!\n");
+				rs.close();
 				return;
 			}
 			else
