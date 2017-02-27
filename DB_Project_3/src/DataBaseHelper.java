@@ -248,6 +248,7 @@ public class DataBaseHelper
 			{
 				System.out.println("No Doctors recorded!");
 			}
+			
 			do
 			{
 				int doctorID = rs.getInt("doctorID");
@@ -302,6 +303,8 @@ public class DataBaseHelper
 
 			rs.close();
 			st.close();
+			
+			System.out.println("Payment updated!\n");
 		}
 		catch (SQLException e)
 		{
