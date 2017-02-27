@@ -6,7 +6,6 @@ import java.util.Scanner;
 
 public class Reporting
 {
-	static String choice = "";
 	public static void main(String[] args)
 	{
 		if (args.length != 2 && args.length != 3)
@@ -17,10 +16,10 @@ public class Reporting
 		}
 		
 		Account account = new Account(args[0], args[1]);
-		
+		String choice = "";
 		DataBaseHelper db = new DataBaseHelper(account);
 		
-		if (args.length == 4)
+		if (args.length == 3)
 		{
 			choice = args[2];
 		}
