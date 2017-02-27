@@ -325,7 +325,6 @@ public class DataBaseHelper
 		}
 		else if (choice.equals("4"))
 		{
-			//System.out.println("No choice 4 yet");
 			choice4();
 		}
 	}
@@ -356,6 +355,18 @@ public class DataBaseHelper
 			try
 			{
 				int i = Integer.parseInt(s);
+				return true;
+			}
+			catch (NumberFormatException e)
+			{
+				return false;
+			}
+		}
+		if (type == Double.class)
+		{
+			try
+			{
+				double i = Double.parseDouble(s);
 				return true;
 			}
 			catch (NumberFormatException e)
